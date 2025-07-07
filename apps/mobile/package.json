@@ -9,7 +9,6 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "@famremit/ui": "*",
     "expo": "~51.0.8",
     "expo-constants": "~16.0.1",
     "expo-device": "~6.0.2",

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '../../../lib/supabase-client';
-import { Button } from '@famremit/ui';
+import { Button } from '../../../components/Button';
 
 // Define types for our data for type safety
 type Wallet = {

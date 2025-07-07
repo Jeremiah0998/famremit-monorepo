@@ -2,8 +2,7 @@
   "name": "famremit-monorepo",
   "private": true,
   "workspaces": [
-    "apps/*",
-    "packages/*"
+    "apps/*" 
   ],
   "scripts": {
     "build": "turbo build",
