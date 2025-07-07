@@ -1,0 +1,25 @@
+# Node
+node_modules
+*.log
+pnpm-lock.yaml
+
+# Turbo
+.turbo
+
+# Env - We don't ignore .env.local in the root anymore
+# but it's good practice to keep the rule.
+.env
+.env.local 
+.env.*.local
+
+# Vercel
+.vercel
+
+# Expo
+.expo/
+dist/
+npm-debug.log
+yarn-error.log
+
+# macOS
+.DS_Store

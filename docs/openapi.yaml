@@ -1,0 +1,155 @@
+# Filename: openapi.yml
+# Version: 1.1.0 (Incremented for Sprint 2)
+
+openapi: 3.0.3
+info:
+  title: "FamRemit API"
+  description: "Official API for the FamRemit Cross-Border Money Transfer App."
+  version: "1.1.0"
+
+servers:
+  - url: https://pelpmuamrijexomewbqk.supabase.co
+    description: Production Server
+
+# Define security schemes for authentication
+security:
+  - bearerAuth: []
+
+paths:
+  # --- Identity (from Sprint 1) ---
+  /auth/v1/token:
+    post:
+      summary: "Sign In User"
+      description: "Authenticates a user and returns a JWT."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+      responses:
+        '200':
+          description: "Successful authentication"
+        '400':
+          description: "Invalid credentials"
+
+  # --- Wallets & Transactions (NEW for Sprint 2) ---
+  /rest/v1/wallets:
+    get:
+      summary: "Get User Wallets"
+      description: "Retrieves a list of wallets and their balances for the authenticated user. RLS policy ensures users can only see their own wallets."
+      parameters:
+        - name: select
+          in: query
+          description: "Fields to return. Use `id,balance,currencies(code)` for efficiency."
+          schema:
+            type: string
+            default: "id,balance,currencies(code)"
+      responses:
+        '200':
+          description: "A list of the user's wallets."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Wallet'
+        '401':
+          description: "Unauthorized"
+
+  /rpc/create_wallet_transfer:
+    post:
+      summary: "Create Wallet Transfer"
+      description: "Atomically transfers a balance from a sender's wallet to a receiver's wallet. This is the only way to move funds."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                sender_wallet_id:
+                  type: integer
+                receiver_wallet_id:
+                  type: integer
+                amount:
+                  type: number
+                  format: double
+      responses:
+        '200':
+          description: "Result of the transfer operation."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferResult'
+        '401':
+          description: "Unauthorized"
+
+  # --- Edge Functions (NEW for Sprint 2) ---
+  /functions/v1/get-fx-quote:
+    post:
+      summary: "Get FX Quote"
+      description: "Fetches a real-time (cached) exchange rate for a currency pair."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                source_currency:
+                  type: string
+                  example: "NGN"
+                target_currency:
+                  type: string
+                  example: "GHS"
+      responses:
+        '200':
+          description: "The exchange rate."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  rate:
+                    type: number
+                    format: double
+        '500':
+          description: "Error fetching rate"
+
+# --- Reusable Components ---
+components:
+  schemas:
+    Wallet:
+      type: object
+      properties:
+        id:
+          type: integer
+        balance:
+          type: number
+        currencies:
+          type: object
+          properties:
+            code:
+              type: string
+              example: "NGN"
+    TransferResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+        transaction_id:
+          type: integer
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
