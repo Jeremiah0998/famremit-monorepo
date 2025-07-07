@@ -1,5 +1,5 @@
-// This is not a client component anymore.
 import type { Metadata } from "next";
+import { Providers } from '../components/Providers'; // Import our new provider
 
 export const metadata: Metadata = {
   title: "FamRemit",
@@ -13,7 +13,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <Providers>
+          {children}
+        </Providers>
+      </body>
     </html>
   );
 }
