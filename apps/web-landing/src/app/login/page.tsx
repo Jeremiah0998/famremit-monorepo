@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { supabase } from '../../lib/supabase-client'
-import { Button } from '@famremit/ui'
+import { Button } from '../../components/Button' // <-- THE ONLY CHANGE IS THIS LINE
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')

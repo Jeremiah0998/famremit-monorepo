@@ -1,23 +1,19 @@
 {
   "name": "famremit-monorepo",
   "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "postinstall": "pnpm build --filter=@famremit/ui"
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
     "prettier": "^3.2.5",
     "turbo": "latest"
   },
-  "packageManager": "pnpm@8.9.0",
-  "engines": {
-    "node": ">=18"
-  },
-  "volta": {
-    "node": "20.11.1",
-    "pnpm": "8.9.0"
-  }
+  "packageManager": "yarn@1.22.19"
 }

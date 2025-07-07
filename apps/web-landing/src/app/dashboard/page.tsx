@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { supabase } from '../../lib/supabase-client';
-import { Button } from '@famremit/ui';
+import { Button } from '../../components/Button'; // <-- UPDATED IMPORT
 
 export default function DashboardPage() {
   const handleSignOut = async () => {

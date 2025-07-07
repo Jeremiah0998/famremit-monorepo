@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@famremit/ui": "workspace:*",
+    "@famremit/ui": "*",
     "@paystack/paystack-sdk": "^1.0.1",
     "@supabase/auth-helpers-nextjs": "^0.9.0",
     "@supabase/supabase-js": "^2.39.8",

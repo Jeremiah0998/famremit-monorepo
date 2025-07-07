@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from '@famremit/ui';
+import { Button } from '../../../components/Button'; // <-- UPDATED IMPORT
 
 export default function FundPage() {
   const [amount, setAmount] = useState(0);
@@ -17,7 +17,6 @@ export default function FundPage() {
     setMessage('Connecting to payment gateway...');
 
     try {
-      // 1. Call our new backend API route
       const response = await fetch('/api/initialize-payment', {
         method: 'POST',
         headers: {
@@ -25,18 +24,13 @@ export default function FundPage() {
         },
         body: JSON.stringify({ amount }),
       });
-
       const data = await response.json();
-
       if (!response.ok) {
         throw new Error(data.error || 'Something went wrong.');
       }
-      
-      // 2. If the call is successful, redirect the user to the Paystack payment page
       if (data.authorization_url) {
         window.location.href = data.authorization_url;
       }
-
     } catch (error: any) {
       setMessage(`Error: ${error.message}`);
       setLoading(false);
@@ -47,7 +41,6 @@ export default function FundPage() {
     <div style={{ padding: '20px', maxWidth: '600px', margin: 'auto' }}>
       <h2>Fund Your Wallet (NGN)</h2>
       <p>You will be redirected to our secure payment partner to complete the transaction.</p>
-      
       <input
         type="number"
         placeholder="Amount in NGN"
@@ -55,12 +48,10 @@ export default function FundPage() {
         style={{ width: '100%', padding: '12px', fontSize: '16px', marginBottom: '20px' }}
         disabled={loading}
       />
-      
       <Button 
         text={loading ? 'Connecting...' : 'Proceed to Funding'}
         onPress={handleInitializePayment} 
       />
-
       {message && <p style={{ marginTop: '20px', textAlign: 'center' }}>{message}</p>}
     </div>
   );
