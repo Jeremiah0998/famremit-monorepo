@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { supabase } from '../../lib/supabase-client';
-import { Button } from '../../components/Button'; // <-- UPDATED IMPORT
+import { Button } from '../../components/Button';
 
 export default function DashboardPage() {
   const handleSignOut = async () => {
